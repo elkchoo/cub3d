@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
+/*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:37:24 by Elkan Choo        #+#    #+#             */
-/*   Updated: 2026/04/08 00:23:32 by echoo            ###   ########.fr       */
+/*   Updated: 2026/04/08 18:30:45 by Elkan Choo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,7 @@ void	set_pos(t_pos *pos, int x, int y)
 
 int	iswall(char c)
 {
-	if (c == ' ' || c == '1');
+	if (c == ' ' || c == '1')
+		return (1);
+	return (0);
 }

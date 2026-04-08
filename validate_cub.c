@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_cub.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
+/*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 17:30:39 by echoo             #+#    #+#             */
-/*   Updated: 2026/04/08 00:22:32 by echoo            ###   ########.fr       */
+/*   Updated: 2026/04/08 18:46:27 by Elkan Choo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 
 int		elements_set(t_data *vars);
 void	add_element(t_data *vars, char *line, int *index);
+char	*get_texture(char *line, int *index);
+t_col	get_color(char *line, int *index);
 
 int	val_cub(t_data *vars)
 {
@@ -34,7 +36,7 @@ int	val_cub(t_data *vars)
 		{
 			if (!elements_set(vars))
 			{
-				while (line == ' ')
+				while (*line == ' ')
 				add_element(vars, line, &index);
 			}
 			else
@@ -45,6 +47,7 @@ int	val_cub(t_data *vars)
 		free(line);
 		line = get_next_line(vars->fd);
 	}
+	return (elements_set(vars));
 }
 
 // Returns 1 if all elements are set, 0 if not all elements are set.
@@ -58,9 +61,9 @@ int	elements_set(t_data *vars)
 		return (0);
 	if (vars->w_texture == NULL)
 		return (0);
-	if (vars->f_color.set = 0)
+	if (vars->f_color.set == 0)
 		return (0);
-	if (vars->c_color.set = 0)
+	if (vars->c_color.set == 0)
 		return (0);
 	return (1);
 }
@@ -93,23 +96,23 @@ t_col	get_color(char *line, int *index)
 		return (tr);
 	tr.set = 1;
 	color_code = ft_atoi(colors[0]);
-	if (0 <= color_code <= 255)
+	if (0 <= color_code && color_code <= 255)
 		// call shutdown (TODO)
 		return (tr);
 	tr.red = color_code;
 	color_code = ft_atoi(colors[1]);
-	if (0 <= color_code <= 255)
+	if (0 <= color_code && color_code <= 255)
 		// call shutdown (TODO)
 		return (tr);
 	tr.green = color_code;
 	color_code = ft_atoi(colors[1]);
-	if (0 <= color_code <= 255)
+	if (0 <= color_code && color_code <= 255)
 		// call shutdown (TODO)
 		return (tr);
 	tr.blue = color_code;
 	ft_free_arrays(colors);
 	while (line[*index] == ' ')
-		*(index++);
+		(*index)++;
 	return (tr);
 }
 
@@ -119,7 +122,7 @@ char	*get_texture(char *line, int *index)
 	char	*tr;
 
 	while (line[*index] == ' ')
-		*(index++);
+		(*index)++;
 	strlen = 0;
 	while (line[*index + strlen] && line[*index + strlen] != ' ')
 		strlen++;
@@ -129,7 +132,10 @@ char	*get_texture(char *line, int *index)
 		return (NULL);
 	strlen = 0;
 	while (line[*index + strlen] && line[*index + strlen] != ' ')
-		tr[strlen] = line[*index + strlen++];
+	{
+		tr[strlen] = line[*index + strlen];
+		strlen++;
+	}
 	*index += strlen;
 	return (tr);
 }

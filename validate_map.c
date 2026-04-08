@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
+/*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:30:28 by echoo             #+#    #+#             */
-/*   Updated: 2026/04/08 00:23:25 by echoo            ###   ########.fr       */
+/*   Updated: 2026/04/08 13:31:07 by Elkan Choo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	val_map(t_data *vars)
 
 	map_str = ft_calloc(1, sizeof(char));
 	line = get_next_line(vars->fd);
-	if (line == NULL || map_str == NULL)
+	if (map_str == NULL || line == NULL)
 		return (free(line), free(map_str), write(2, "Error\nNo map\n", 13), 0);
 	while (line)
 	{

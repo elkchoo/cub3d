@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
+/*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/03 13:12:23 by elkan             #+#    #+#             */
-/*   Updated: 2026/04/08 00:23:23 by echoo            ###   ########.fr       */
+/*   Updated: 2026/04/08 18:30:14 by Elkan Choo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,16 @@ void	config_steps(t_pars *par, int step);
 */
 int		val_map(t_data *vars);
 
+// from validate_cub.c
+/**
+ * @return Returns 1 if cub is valid, 0 if not
+*/
+int		val_cub(t_data *vars);
+
 // from cub3d_utils.c
 /**
  * @return Returns 1 if c is a wall, 0 if not
 */
-int	iswall(char c)
+int		iswall(char c);
 
 #endif

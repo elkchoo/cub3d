@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
+/*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 19:09:26 by Elkan Choo        #+#    #+#             */
-/*   Updated: 2026/04/08 00:23:20 by echoo            ###   ########.fr       */
+/*   Updated: 2026/04/08 18:28:57 by Elkan Choo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,11 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+void	setup(t_data *vars);
+
 int	main(int argc, char *argv[])
 {
 	t_data	vars;
-	int		index;
 
 	if (argc != 2)
 		return (write(2, "Format: ./so_long <map>\n", 24), 1);
@@ -36,6 +37,7 @@ int	main(int argc, char *argv[])
 	setup(&vars);
 	if (!val_cub(&vars))
 		return (close(vars.fd), 1);
+	printf("Valid cub\n");
 	close(vars.fd);
 }
 

@@ -3,16 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+         #
+#    By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/12 21:52:11 by elkan             #+#    #+#              #
-#    Updated: 2026/04/07 17:52:12 by echoo            ###   ########.fr        #
+#    Updated: 2026/04/08 13:25:14 by Elkan Choo       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SOURCES = check_path.c mlx_utils_2.c mlx_utlis.c open_window.c \
-player_movement.c player_rotation.c search_path.c so_long.c so_long_utils.c \
-config_steps.c
+SOURCES = $(wildcard *.c)
 
 BONUS_SOURCES = check_path.c mlx_utils_2.c mlx_utlis.c open_window.c \
 player_movement.c player_rotation.c search_path.c so_long.c so_long_utils.c \
