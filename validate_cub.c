@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_cub.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
+/*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 17:30:39 by echoo             #+#    #+#             */
-/*   Updated: 2026/04/08 18:46:27 by Elkan Choo       ###   ########.fr       */
+/*   Updated: 2026/04/08 23:52:35 by echoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 int		elements_set(t_data *vars);
 void	add_element(t_data *vars, char *line, int *index);
 char	*get_texture(char *line, int *index);
-t_col	get_color(char *line, int *index);
+void	get_color(t_col *tr, char *line, int *index);
 
 int	val_cub(t_data *vars)
 {
@@ -36,7 +36,8 @@ int	val_cub(t_data *vars)
 		{
 			if (!elements_set(vars))
 			{
-				while (*line == ' ')
+				// while (*line == ' ')
+				// 	line++;
 				add_element(vars, line, &index);
 			}
 			else
@@ -70,50 +71,51 @@ int	elements_set(t_data *vars)
 
 void	add_element(t_data *vars, char *line, int *index)
 {
-	if (ft_strncmp(line + *(index += 2), "NO", 2))
+	if (ft_strncmp(line + *(index), "NO", 2))
 		vars->n_texture = get_texture(line, index);
-	if (ft_strncmp(line + *(index += 2), "SO", 2))
+	if (ft_strncmp(line + *(index), "SO", 2))
 		vars->s_texture = get_texture(line, index);
-	if (ft_strncmp(line + *(index += 2), "EA", 2))
+	if (ft_strncmp(line + *(index), "EA", 2))
 		vars->e_texture = get_texture(line, index);
-	if (ft_strncmp(line + *(index += 2), "WE", 2))
+	if (ft_strncmp(line + *(index), "WE", 2))
 		vars->w_texture = get_texture(line, index);
-	if (ft_strncmp(line + *(index += 2), "F", 2))
-		vars->f_color = get_color(line, index);
-	if (ft_strncmp(line + *(index += 2), "C", 2))
-		vars->c_color = get_color(line, index);
+	if (ft_strncmp(line + *(index), "F", 2))
+		get_color(&vars->f_color, line, index);
+	if (ft_strncmp(line + *(index), "C", 2))
+		get_color(&vars->f_color, line, index);
 }
 
-t_col	get_color(char *line, int *index)
+void	get_color(t_col *tr, char *line, int *index)
 {
 	char	**colors;
 	int		color_code;
-	t_col	tr;
 
-	colors = ft_split(line, ',');
+	(*index)++;
+	while (line[*index])
+		(*index)++;
+	colors = ft_split(line + *index, ',');
 	if (!colors)
 		// call shutdown (TODO)
-		return (tr);
-	tr.set = 1;
+		return ;
+	tr->set = 1;
 	color_code = ft_atoi(colors[0]);
 	if (0 <= color_code && color_code <= 255)
 		// call shutdown (TODO)
-		return (tr);
-	tr.red = color_code;
+		return ;
+	tr->red = color_code;
 	color_code = ft_atoi(colors[1]);
 	if (0 <= color_code && color_code <= 255)
 		// call shutdown (TODO)
-		return (tr);
-	tr.green = color_code;
+		return ;
+	tr->green = color_code;
 	color_code = ft_atoi(colors[1]);
 	if (0 <= color_code && color_code <= 255)
 		// call shutdown (TODO)
-		return (tr);
-	tr.blue = color_code;
+		return ;
+	tr->blue = color_code;
 	ft_free_arrays(colors);
-	while (line[*index] == ' ')
+	while (line[*index] != ' ')
 		(*index)++;
-	return (tr);
 }
 
 char	*get_texture(char *line, int *index)
@@ -121,6 +123,7 @@ char	*get_texture(char *line, int *index)
 	int		strlen;
 	char	*tr;
 
+	(*index) += 2;
 	while (line[*index] == ' ')
 		(*index)++;
 	strlen = 0;
@@ -130,12 +133,7 @@ char	*get_texture(char *line, int *index)
 	if (tr == NULL)
 		//shutdown should be called, TODO
 		return (NULL);
-	strlen = 0;
-	while (line[*index + strlen] && line[*index + strlen] != ' ')
-	{
-		tr[strlen] = line[*index + strlen];
-		strlen++;
-	}
+	ft_gnl_strlcpy(tr, line, strlen + 1);
 	*index += strlen;
 	return (tr);
 }

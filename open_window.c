@@ -6,7 +6,7 @@
 /*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 12:25:03 by elkan             #+#    #+#             */
-/*   Updated: 2026/04/07 17:29:51 by echoo            ###   ########.fr       */
+/*   Updated: 2026/04/08 23:37:02 by echoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@
 
 //-I.mlx -L./.mlx -lmlx -lXext -lX11
 
-int		open_window(char **map, int width, int height, int cols);
-void	setup(t_pars *par, int cols);
-void	initial_window_colouring(t_pars *par, int x, int y);
-void	redraw_window(t_pars *p_ptr, int x, int y);
-int		redraw(void *p_ptr);
+int			open_window(char **map, int width, int height, int cols);
+static void	setup(t_pars *par, int cols);
+void		initial_window_colouring(t_pars *par, int x, int y);
+void		redraw_window(t_pars *p_ptr, int x, int y);
+int			redraw(void *p_ptr);
 
 int	open_window(char **map, int width, int height, int cols)
 {

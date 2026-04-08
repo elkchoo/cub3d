@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+         #
+#    By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/12 21:52:11 by elkan             #+#    #+#              #
-#    Updated: 2026/04/08 13:25:14 by Elkan Choo       ###   ########.fr        #
+#    Updated: 2026/04/08 23:48:26 by echoo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,9 +20,9 @@ OBJECTS = $(SOURCES:%.c=%.o)
 
 BONUS_OBJECTS = $(BONUS_SOURCES:%.c=%.o)
 
-NAME = so_long
+NAME = cub3d
 
-BONUS = so_long_bonus
+BONUS = cub3d_bonus
 
 LIBFT = libft/libft.a
 

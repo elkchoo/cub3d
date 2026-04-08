@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
+/*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:30:28 by echoo             #+#    #+#             */
-/*   Updated: 2026/04/08 13:31:07 by Elkan Choo       ###   ########.fr       */
+/*   Updated: 2026/04/08 23:45:29 by echoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,11 @@ int	val_map(t_data *vars)
 	char	*line;
 	char	*map_str;
 
+	printf("Here\n");
 	map_str = ft_calloc(1, sizeof(char));
 	line = get_next_line(vars->fd);
 	if (map_str == NULL || line == NULL)
-		return (free(line), free(map_str), write(2, "Error\nNo map\n", 13), 0);
+		return (free(line), free(map_str), write(2, "Error\nNo map\n", 14), 0);
 	while (line)
 	{
 		if (*line == '\n' || check_chars(line, 0)
@@ -41,7 +42,7 @@ int	val_map(t_data *vars)
 		line = get_next_line(vars->fd);
 	}
 	vars->map = ft_split(map_str, '\n');
-	if (!check_chars(line, 1) || !vars->map || !val_map_cov(*vars->map))
+	if (!check_chars(line, 1) || !vars->map || !val_map_cov((const char **)vars->map))
 		return (free(map_str), ft_free_arrays(vars->map), 0);
 	return (free(map_str), 1);
 }
@@ -58,13 +59,14 @@ int	check_chars(char *line, int final)
 		if (!(line[i] == '0' || line[i] == '1' || line[i] == 'N'
 				|| line[i] == 'S' || line[i] == 'E' || line[i] == 'W'
 				|| line[i] == ' '))
-			return (write(2, "Error\nInvalid characters in map\n", 32), 0);
-		if (line[i] == 'P')
+			return (write(2, "Error\nInvalid characters in map\n", 33), 0);
+		if (line[i] == 'N' || line[i] == 'S' ||
+			line[i] == 'E' || line[i] == 'W')
 			p_count++;
 		i++;
 	}
 	if (final && p_count != 1)
-		return (write(2, "Error\nMap must have one player\n", 39), 0);
+		return (write(2, "Error\nMap must have one player\n", 32), 0);
 	return (1);
 }
 

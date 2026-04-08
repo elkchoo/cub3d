@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
+/*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 19:09:26 by Elkan Choo        #+#    #+#             */
-/*   Updated: 2026/04/08 18:28:57 by Elkan Choo       ###   ########.fr       */
+/*   Updated: 2026/04/08 23:44:47 by echoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,21 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-void	setup(t_data *vars);
+static void	setup(t_data *vars);
 
 int	main(int argc, char *argv[])
 {
 	t_data	vars;
 
 	if (argc != 2)
-		return (write(2, "Format: ./so_long <map>\n", 24), 1);
+		return (write(2, "Format: ./cub3d <map>\n", 23), 1);
 	vars.fd = open(argv[1], O_RDONLY);
 	vars.filename_len = ft_strlen(argv[1]);
 	if (vars.fd < 0)
 		return (perror(argv[1]), 1);
 	if (vars.filename_len < 4 ||
 		ft_strncmp(argv[1] + vars.filename_len - 4, ".cub", 4))
-		return (close(vars.fd), write(2, "Invalid file format\n", 20), 1);
+		return (close(vars.fd), write(2, "Invalid file format\n", 21), 1);
 	setup(&vars);
 	if (!val_cub(&vars))
 		return (close(vars.fd), 1);
@@ -41,7 +41,7 @@ int	main(int argc, char *argv[])
 	close(vars.fd);
 }
 
-void	setup(t_data *vars)
+static void	setup(t_data *vars)
 {
 	vars->n_texture = NULL;
 	vars->s_texture = NULL;
