@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
+/*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:30:28 by echoo             #+#    #+#             */
-/*   Updated: 2026/04/08 23:45:29 by echoo            ###   ########.fr       */
+/*   Updated: 2026/04/09 19:12:43 by Elkan Choo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,28 +23,38 @@ int	val_map_cov(const char **map);
 int	check_walled(const char *line, int index);
 int	check_border(const char **map, int height);
 
-int	val_map(t_data *vars)
+// val_cub HAS to keep reading in order to skip newlines and detect when the
+// map starts. As a result, it reads the first line of the map, making that
+// first line inaccessible through get_next_line. So, that first line has
+// to be passed into val_map. The data will later be freed in the loop, so
+// strdup is necessary.
+
+int	val_map(t_data *data, char *f_line)
 {
 	char	*line;
 	char	*map_str;
 
-	printf("Here\n");
-	map_str = ft_calloc(1, sizeof(char));
-	line = get_next_line(vars->fd);
-	if (map_str == NULL || line == NULL)
-		return (free(line), free(map_str), write(2, "Error\nNo map\n", 14), 0);
+	map_str = ft_strdup(f_line);
+	line = get_next_line(data->fd);
+	if (map_str == NULL)
+		return (free(line), free(map_str), 0);
 	while (line)
 	{
-		if (*line == '\n' || check_chars(line, 0)
+		if (*line == '\n')
+			return (free(map_str), free(line),
+				ft_dprintf(2, "Error\nEmpty line in map\n"), 0);
+		if (!check_chars(line, 0)
 			|| !ft_merge_strings(&map_str, line))
 			return (free(map_str), free(line), 0);
 		free(line);
-		line = get_next_line(vars->fd);
+		line = get_next_line(data->fd);
 	}
-	vars->map = ft_split(map_str, '\n');
-	if (!check_chars(line, 1) || !vars->map || !val_map_cov((const char **)vars->map))
-		return (free(map_str), ft_free_arrays(vars->map), 0);
-	return (free(map_str), 1);
+	data->map = ft_split(map_str, '\n');
+	free(map_str);
+	if (!check_chars(line, 1) || !data->map
+		|| !val_map_cov((const char **)data->map))
+		return (ft_free_arrays(data->map), 0);
+	return (1);
 }
 
 // If not final, adds up numbers of exits, players, and collectibles.
@@ -59,14 +69,14 @@ int	check_chars(char *line, int final)
 		if (!(line[i] == '0' || line[i] == '1' || line[i] == 'N'
 				|| line[i] == 'S' || line[i] == 'E' || line[i] == 'W'
 				|| line[i] == ' '))
-			return (write(2, "Error\nInvalid characters in map\n", 33), 0);
-		if (line[i] == 'N' || line[i] == 'S' ||
-			line[i] == 'E' || line[i] == 'W')
+			return (ft_dprintf(2, "Error\nInvalid characters in map\n"), 0);
+		if (line[i] == 'N' || line[i] == 'S'
+			|| line[i] == 'E' || line[i] == 'W')
 			p_count++;
 		i++;
 	}
 	if (final && p_count != 1)
-		return (write(2, "Error\nMap must have one player\n", 32), 0);
+		return (ft_dprintf(2, "Error\nMap must have one player\n"), 0);
 	return (1);
 }
 
@@ -90,7 +100,11 @@ int	val_map_cov(const char **map)
 				lowest = line_len;
 			if (next_len < prev_len)
 				lowest = next_len;
-			check_walled(map[index], lowest);
+			if (!check_walled(map[index], lowest))
+			{
+				return (ft_dprintf(2, "Error\nWalls don't cover map\n"), 0);
+				exit (1);
+			}
 		}
 		index++;
 	}
@@ -99,6 +113,11 @@ int	val_map_cov(const char **map)
 
 int	check_walled(const char *line, int index)
 {
+	if (!line[index])
+	{
+		if (!iswall(line[index - 1]))
+			return (0);
+	}
 	while (line[index])
 	{
 		if (!iswall(line[index]))
@@ -115,8 +134,9 @@ int	check_border(const char **map, int height)
 	index = 0;
 	while (map[0][index])
 	{
+		// printf("wall: %c%c\nindex: %i\n", map[0][index], map[height - 1][index], index);
 		if (!iswall(map[0][index]) || !iswall(map[height - 1][index]))
-			return (write(2, "Error\nWalls don't cover map\n", 27), 0);
+			return (ft_dprintf(2, "Error\nWalls don't cover map\n"), 0);
 		index++;
 	}
 	return (1);

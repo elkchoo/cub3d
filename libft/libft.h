@@ -131,7 +131,10 @@ int				*ft_int_arr_dup(const int *i, size_t len);
 // returns the int difference between x and y
 unsigned int	ft_idim(int x, int y);
 
-// sets the value of all ints pointed to by the function to zero
+// sets the value of all ints pointed to by the function to zero. num is the
+// number of values you're passing into it. Make sure you're passing pointers
+// to the function, as that's what the function expects, and the function can't
+// edit your ints otherwise
 void			ft_set_zero(int num, ...);
 
 // Replaced str_1 with a string of str_1 and str_2 combined. Returns 0 on

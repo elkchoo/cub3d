@@ -6,7 +6,7 @@
 /*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/03 13:12:23 by elkan             #+#    #+#             */
-/*   Updated: 2026/04/08 18:30:14 by Elkan Choo       ###   ########.fr       */
+/*   Updated: 2026/04/09 19:12:51 by Elkan Choo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,13 +120,13 @@ void	config_steps(t_pars *par, int step);
 /**
  * @return Returns 1 if map is valid, 0 if not
 */
-int		val_map(t_data *vars);
+int		val_map(t_data *data, char *line);
 
 // from validate_cub.c
 /**
  * @return Returns 1 if cub is valid, 0 if not
 */
-int		val_cub(t_data *vars);
+int		val_cub(t_data *data);
 
 // from cub3d_utils.c
 /**

@@ -25,12 +25,12 @@ static void	free_all(char **to_return);
 // {
 // 	char **array;
 
-// 	array = ft_split("Tripouille", ' ');
-// 	for (int i = 0; i < 2; i++)
+// 	array = ft_split(",", ',');
+// 	for (int i = 0; array[i]; i++)
 // 	{
 // 		printf("%s\n", array[i]);
 // 	}
-// 	(void)array;
+// 	free(array);
 // }
 
 char	**ft_split(char const *str, char c)

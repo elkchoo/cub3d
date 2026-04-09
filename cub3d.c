@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
+/*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 19:09:26 by Elkan Choo        #+#    #+#             */
-/*   Updated: 2026/04/08 23:44:47 by echoo            ###   ########.fr       */
+/*   Updated: 2026/04/09 19:12:43 by Elkan Choo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,34 +19,34 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-static void	setup(t_data *vars);
+static void	setup(t_data *data);
 
 int	main(int argc, char *argv[])
 {
-	t_data	vars;
+	t_data	data;
 
 	if (argc != 2)
-		return (write(2, "Format: ./cub3d <map>\n", 23), 1);
-	vars.fd = open(argv[1], O_RDONLY);
-	vars.filename_len = ft_strlen(argv[1]);
-	if (vars.fd < 0)
+		return (ft_dprintf(2, "Format: ./cub3d <map>\n"), 1);
+	data.fd = open(argv[1], O_RDONLY);
+	data.filename_len = ft_strlen(argv[1]);
+	if (data.fd < 0)
 		return (perror(argv[1]), 1);
-	if (vars.filename_len < 4 ||
-		ft_strncmp(argv[1] + vars.filename_len - 4, ".cub", 4))
-		return (close(vars.fd), write(2, "Invalid file format\n", 21), 1);
-	setup(&vars);
-	if (!val_cub(&vars))
-		return (close(vars.fd), 1);
+	if (data.filename_len < 4 ||
+		ft_strncmp(argv[1] + data.filename_len - 4, ".cub", 4))
+		return (close(data.fd), ft_dprintf(2, "Invalid file format\n"), 1);
+	setup(&data);
+	if (!val_cub(&data))
+		return (close(data.fd), 1);
 	printf("Valid cub\n");
-	close(vars.fd);
+	close(data.fd);
 }
 
-static void	setup(t_data *vars)
+static void	setup(t_data *data)
 {
-	vars->n_texture = NULL;
-	vars->s_texture = NULL;
-	vars->e_texture = NULL;
-	vars->w_texture = NULL;
-	vars->f_color.set = 0;
-	vars->c_color.set = 0;
+	data->n_texture = NULL;
+	data->s_texture = NULL;
+	data->e_texture = NULL;
+	data->w_texture = NULL;
+	data->f_color.set = 0;
+	data->c_color.set = 0;
 }
