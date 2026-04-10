@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_cub.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
+/*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 17:30:39 by echoo             #+#    #+#             */
-/*   Updated: 2026/04/09 19:39:18 by Elkan Choo       ###   ########.fr       */
+/*   Updated: 2026/04/10 11:26:58 by echoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,74 +105,25 @@ void	add_element(t_data *data, char *line, int *index)
 	}
 }
 
-// The color checking is very tricky. I need to parse the colors, and check
-// that there are indeed 3 numbers. So, each string in split has to be checked
-// for non-numbers. atoi cannot be trusted to do this. However, recall that
-// since elements can be separated by spaces, the last one is allowed to have
-// some in its later buffers. So, maybe the check stops when it sees spaces,
-// sure. Maybe I can copy get_texture's solution where I measure a strlen that
-// stops before any spaces or newlines, and I can also limit it to 4 since
-// only up to 3 chars are valid (biggest number is 255), and a 4th char to
-// see if a number bigger than that is given. So, perhaps a char [4], and
-// then I copy from the number string into the array, until 4 chars or a space
-// or newline is encountered, and then I check that everything is a digit, then
-// I pass to atoi and do the number range checks. Man, validating the colors
-// sucks
+// All error checking functions (val_colors and process_color) will free
+// colors, so colors is only freed after a successful operation.
 void	get_color(t_col *tr, char *line, int *index)
 {
 	char	**colors;
-	int		color_code;
 
 	(*index)++;
 	while (line[*index] == ' ' || line[*index] == '\n')
 		(*index)++;
 	colors = ft_split(line + *index, ',');
-	for (int i = 0; colors[i]; i++)
+	if (!colors || !val_colors(colors))
 	{
-		printf("color: %s\n", colors[i]);
-	}
-	if (!colors)
-	{
-		ft_dprintf(2, "Error\nColor data missing\n");
+		ft_dprintf(2, "Error\nInvalid / missing color data\n");
 		exit (1);
 	}
+	tr->red = process_color(colors[0], colors);
+	tr->green = process_color(colors[1], colors);
+	tr->blue = process_color(colors[2], colors);
 	tr->set = 1;
-	if (!colors[0] || !colors[0][0])
-	{
-		ft_dprintf(2, "Error\nColor data missing\n");
-		exit (1);
-	}
-	color_code = ft_atoi(colors[0]);
-	if (color_code < 0 || 255 < color_code)
-	{
-		ft_dprintf(2, "Error\nInvalid color code\n");
-		exit (1);
-	}
-	tr->red = color_code;
-	if (!colors[1] || !colors[1][0])
-	{
-		ft_dprintf(2, "Error\nColor data missing\n");
-		exit (1);
-	}
-	color_code = ft_atoi(colors[1]);
-	if (color_code < 0 || 255 < color_code)
-	{
-		ft_dprintf(2, "Error\nInvalid color code\n");
-		exit (1);
-	}
-	tr->green = color_code;
-	if (!colors[2] || !colors[2][0])
-	{
-		ft_dprintf(2, "Error\nColor data missing\n");
-		exit (1);
-	}
-	color_code = ft_atoi(colors[2]);
-	if (color_code < 0 || 255 < color_code)
-	{
-		ft_dprintf(2, "Error\nInvalid color code\n");
-		exit (1);
-	}
-	tr->blue = color_code;
 	while (line[*index] && line[*index] != ' ')
 		(*index)++;
 	ft_free_arrays(colors);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
+/*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/03 13:12:23 by elkan             #+#    #+#             */
-/*   Updated: 2026/04/09 19:12:51 by Elkan Choo       ###   ########.fr       */
+/*   Updated: 2026/04/10 11:24:14 by echoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,10 @@ int		search_path(char **map, t_pos p_pos, int cols);
 // from cub3d_utils.c
 size_t	ft_map_len(char *str);
 void	set_pos(t_pos *pos, int x, int y);
+/**
+ * @return Returns 1 if c is a wall, 0 if not
+*/
+int		iswall(char c);
 
 // from open_window.c
 int		open_window(char **map, int width, int height, int cols);
@@ -128,10 +132,22 @@ int		val_map(t_data *data, char *line);
 */
 int		val_cub(t_data *data);
 
-// from cub3d_utils.c
+// from validate_colors.c
+
 /**
- * @return Returns 1 if c is a wall, 0 if not
+ * @param colors The char **array containing color data
+ * @return Returns 1 if the colors are valid, 0 if not
 */
-int		iswall(char c);
+int		val_colors(char **colors);
+
+/**
+ * @brief Function checks if the given color code is valid. If it is not,
+ * the function frees colors. If it is, it returns the color code as an
+ * int to tbe stored.
+ * @param code The color code to verify.
+ * @param colors The char **array containing color data
+ * @return Returns 1 if the colors are valid, 0 if not
+*/
+int	process_color(char *code, char **colors);
 
 #endif

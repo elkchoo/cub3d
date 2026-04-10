@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
+/*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 19:09:26 by Elkan Choo        #+#    #+#             */
-/*   Updated: 2026/04/09 19:12:43 by Elkan Choo       ###   ########.fr       */
+/*   Updated: 2026/04/10 11:38:22 by echoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ int	main(int argc, char *argv[])
 	if (!val_cub(&data))
 		return (close(data.fd), 1);
 	printf("Valid cub\n");
+	printf("NO: %s\n", data.n_texture);
+	printf("SO: %s\n", data.s_texture);
+	printf("EA: %s\n", data.e_texture);
+	printf("WE: %s\n", data.w_texture);
+	printf("F: %i, %i, %i\n", data.f_color.red, data.f_color.green, data.f_color.blue);
+	printf("C: %i, %i, %i\n", data.c_color.red, data.c_color.green, data.c_color.blue);
 	close(data.fd);
 }
 
