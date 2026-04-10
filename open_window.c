@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_window.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
+/*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 12:25:03 by elkan             #+#    #+#             */
-/*   Updated: 2026/04/08 23:37:02 by echoo            ###   ########.fr       */
+/*   Updated: 2026/04/10 13:34:55 by Elkan Choo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	setup(t_pars *par, int cols)
 	par->a_img = ft_calloc(1, sizeof(t_img));
 	if (!par->p_img || !par->s_img || !par->w_img
 		|| !par->c_img || !par->e_img || !par->a_img)
-		end_program(par, 1);
+		end_mlx(par, 1);
 	par->p_img->img_ptr = mlx_xpm_file_to_image(par->mlx,
 			"./textures/player/player_r24.xpm", &par->p_img->x, &par->p_img->y);
 	par->s_img->img_ptr = mlx_xpm_file_to_image(par->mlx,

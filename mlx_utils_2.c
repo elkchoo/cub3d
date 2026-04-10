@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_utils_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
+/*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 01:48:43 by elkan             #+#    #+#             */
-/*   Updated: 2026/04/07 18:05:56 by echoo            ###   ########.fr       */
+/*   Updated: 2026/04/10 13:34:55 by Elkan Choo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <sys/time.h>
 
 void	delay(long miliseconds, t_pars *par);
-void	end_program(t_pars *par, int code);
+void	end_mlx(t_pars *par, int code);
 
 void	delay(long miliseconds, t_pars *par)
 {
@@ -27,7 +27,7 @@ void	delay(long miliseconds, t_pars *par)
 
 	time = malloc(sizeof(struct timeval));
 	if (time == NULL)
-		end_program(par, 1);
+		end_mlx(par, 1);
 	gettimeofday(time, NULL);
 	init_time = time->tv_usec + time->tv_sec * 1000000L;
 	while (time->tv_usec + time->tv_sec * 1000000L - init_time < miliseconds)
@@ -37,7 +37,7 @@ void	delay(long miliseconds, t_pars *par)
 	free(time);
 }
 
-void	end_program(t_pars *par, int code)
+void	end_mlx(t_pars *par, int code)
 {
 	t_img		*images[6];
 	static int	index = 0;

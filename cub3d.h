@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
+/*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/03 13:12:23 by elkan             #+#    #+#             */
-/*   Updated: 2026/04/10 11:24:14 by echoo            ###   ########.fr       */
+/*   Updated: 2026/04/10 15:42:12 by Elkan Choo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	draw_and_set_pos(t_pars *par, char c, int x, int y);
 
 // from mlx_utlis_2.c
 void	delay(long miliseconds, t_pars *par);
-void	end_program(t_pars *par, int code);
+void	end_mlx(t_pars *par, int code);
 
 // from player_rotation.c
 void	player_rotation(t_pars *par, unsigned char move_no);
@@ -124,7 +124,7 @@ void	config_steps(t_pars *par, int step);
 /**
  * @return Returns 1 if map is valid, 0 if not
 */
-int		val_map(t_data *data, char *line);
+int		val_map(t_data *data, char **map_str);
 
 // from validate_cub.c
 /**
@@ -132,22 +132,10 @@ int		val_map(t_data *data, char *line);
 */
 int		val_cub(t_data *data);
 
-// from validate_colors.c
+// from get_color.c
+void	get_color(t_data *data, t_col *tr, char *line, int *index);
 
-/**
- * @param colors The char **array containing color data
- * @return Returns 1 if the colors are valid, 0 if not
-*/
-int		val_colors(char **colors);
-
-/**
- * @brief Function checks if the given color code is valid. If it is not,
- * the function frees colors. If it is, it returns the color code as an
- * int to tbe stored.
- * @param code The color code to verify.
- * @param colors The char **array containing color data
- * @return Returns 1 if the colors are valid, 0 if not
-*/
-int	process_color(char *code, char **colors);
+// from end_program.c
+void	end_program(int	status, t_data *data, char *err_msg);
 
 #endif

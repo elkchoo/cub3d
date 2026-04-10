@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   config_steps_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
+/*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 22:11:43 by elkan             #+#    #+#             */
-/*   Updated: 2026/04/07 17:29:51 by echoo            ###   ########.fr       */
+/*   Updated: 2026/04/10 13:34:55 by Elkan Choo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	config_steps(t_pars *par, int step)
 	}
 	num = ft_utoa(par->steps);
 	if (num == NULL)
-		end_program(par, 1);
+		end_mlx(par, 1);
 	ft_strlcpy(par->steps_str + 7, num, 11);
 	mlx_put_image_to_window(par->mlx, par->wind, par->w_img->img_ptr,
 		(par->width / 2 - 1) * SIZE, 0);

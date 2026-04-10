@@ -6,7 +6,7 @@
 /*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:30:28 by echoo             #+#    #+#             */
-/*   Updated: 2026/04/09 19:12:43 by Elkan Choo       ###   ########.fr       */
+/*   Updated: 2026/04/10 17:58:59 by Elkan Choo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,38 +26,37 @@ int	check_border(const char **map, int height);
 // val_cub HAS to keep reading in order to skip newlines and detect when the
 // map starts. As a result, it reads the first line of the map, making that
 // first line inaccessible through get_next_line. So, that first line has
-// to be passed into val_map. The data will later be freed in the loop, so
-// strdup is necessary.
+// to be passed into val_map. The data will later be freed in the gnl loop, and
+// I don't need the map string to persist (I only need it to store map data and
+// and then split it with ft_split), so it's convenient to use it as a map
+// string. It also helps because if I shutdown, I will have to free the line in
+// the gnl loop of the previous function.
 
-int	val_map(t_data *data, char *f_line)
+int	val_map(t_data *data, char **map_str)
 {
 	char	*line;
-	char	*map_str;
 
-	map_str = ft_strdup(f_line);
 	line = get_next_line(data->fd);
-	if (map_str == NULL)
-		return (free(line), free(map_str), 0);
 	while (line)
 	{
 		if (*line == '\n')
-			return (free(map_str), free(line),
+			return (saf_free((void **)&line),
 				ft_dprintf(2, "Error\nEmpty line in map\n"), 0);
 		if (!check_chars(line, 0)
-			|| !ft_merge_strings(&map_str, line))
-			return (free(map_str), free(line), 0);
-		free(line);
+			|| !ft_merge_strings(map_str, line))
+			return (saf_free((void **)&line), 0);
+		saf_free((void **)&line);
 		line = get_next_line(data->fd);
 	}
-	data->map = ft_split(map_str, '\n');
-	free(map_str);
+	data->map = ft_split(*map_str, '\n');
 	if (!check_chars(line, 1) || !data->map
 		|| !val_map_cov((const char **)data->map))
-		return (ft_free_arrays(data->map), 0);
+		return (0);
 	return (1);
 }
 
-// If not final, adds up numbers of exits, players, and collectibles.
+// If not final, adds up numbers of players. If final, checks that only one
+// player is in the map
 int	check_chars(char *line, int final)
 {
 	static int	p_count = 0;
@@ -101,10 +100,7 @@ int	val_map_cov(const char **map)
 			if (next_len < prev_len)
 				lowest = next_len;
 			if (!check_walled(map[index], lowest))
-			{
 				return (ft_dprintf(2, "Error\nWalls don't cover map\n"), 0);
-				exit (1);
-			}
 		}
 		index++;
 	}

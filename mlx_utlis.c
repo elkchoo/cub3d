@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_utlis.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
+/*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 21:14:53 by elkan             #+#    #+#             */
-/*   Updated: 2026/04/07 17:29:51 by echoo            ###   ########.fr       */
+/*   Updated: 2026/04/10 13:34:55 by Elkan Choo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	handle_keys(int keycode, void *p_ptr)
 	par = (t_pars *)p_ptr;
 	if (keycode == 0xff1b)
 	{
-		end_program(par, 0);
+		end_mlx(par, 0);
 	}
 	if (keycode == 0x64 || keycode == 0xff53)
 		move_player(par, 0);
@@ -48,7 +48,7 @@ int	close_window(void *p_ptr)
 	t_pars	*par;
 
 	par = (t_pars *)p_ptr;
-	end_program(par, 0);
+	end_mlx(par, 0);
 	return (0);
 }
 
@@ -70,7 +70,7 @@ void	move_player(t_pars *par, unsigned char move_no)
 	else
 	{
 		if (par->map[new.y][new.x] == 'E')
-			end_program(par, 0);
+			end_mlx(par, 0);
 		move(move_no, par);
 		if (par->map[new.y][new.x] == 'C')
 		{

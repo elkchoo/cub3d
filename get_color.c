@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   validate_colors.c                                  :+:      :+:    :+:   */
+/*   get_color.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
+/*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 20:03:48 by Elkan Choo        #+#    #+#             */
-/*   Updated: 2026/04/10 11:25:19 by echoo            ###   ########.fr       */
+/*   Updated: 2026/04/10 17:58:59 by Elkan Choo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,34 @@
 
 #include <stdlib.h>
 
-// This val_colors function is made to catch three errors:
+int	val_colors(char **colors);
+int	process_color(char *code, t_data *data, char **colors, char *line);
+
+// All error checking functions (val_colors and process_color) will free
+// colors, so colors is only freed after a successful operation.
+void	get_color(t_data *data, t_col *tr, char *line, int *index)
+{
+	char	**colors;
+
+	(*index)++;
+	while (line[*index] == ' ' || line[*index] == '\n')
+		(*index)++;
+	colors = ft_split(line + *index, ',');
+	if (!colors || !val_colors(colors))
+	{
+		saf_free((void **)&line);
+		end_program(1, data, "Error\nInvalid / missing color data\n");
+	}
+	tr->red = process_color(colors[0], data, colors, line);
+	tr->green = process_color(colors[1], data, colors, line);
+	tr->blue = process_color(colors[2], data, colors, line);
+	ft_free_arrays(colors);
+	tr->set = 1;
+	while (line[*index] && line[*index] != ' ')
+		(*index)++;
+}
+
+// The val_colors function is made to catch three errors:
 
 // Firstly, if there is less than
 // three color data strings provided. If so, then c will not be 2, and return
@@ -78,27 +105,28 @@ int	val_colors(char **colors)
 }
 
 // As you recall, negative numbers are caught by val_color, so this funcion
-// only needs to check for color codes that are too big.
+// only needs to check for color codes that are too big. This function takes
+// 3 variables just for proper freeing in case of an error. The inefficiency
+// is likely trivial, but it is a bit ugly. Too bad!
 
 /**
  * @brief Function checks if the given color code is valid. If it is not,
  * the function frees colors. If it is, it returns the color code as an
  * int to tbe stored.
  * @param code The color code to verify.
- * @param colors The char **array containing color data
- * @return Returns 1 if the colors are valid, 0 if not
+ * @param others All other variables are there to ensure everything is properly
+ * freed in event of an error
 */
-
-int	process_color(char *code, char **colors)
+int	process_color(char *code, t_data *data, char **colors, char *line)
 {
 	int		color_code;
 
 	color_code = ft_atoi(code);
 	if (255 < color_code)
 	{
+		saf_free((void **)&line);
 		ft_free_arrays(colors);
-		ft_dprintf(2, "Error\nInvalid color code\n");
-		exit (1);
+		end_program(1, data, "Error\nInvalid / missing color data\n");
 	}
 	return (color_code);
 }

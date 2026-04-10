@@ -15,6 +15,7 @@
 # include <stdarg.h>
 # include <stdint.h>
 # include <stddef.h>
+# include <stdlib.h>
 
 typedef struct s_list
 {
@@ -105,9 +106,11 @@ int				store_leftover(char **buf, size_t len,
 int				ft_newline(char *str, int i);
 void			ft_gnl_strlcpy(char *dst, const char *src, size_t size);
 
-// OWN FUNCTIONS
+/* ************************************************************************** */
+/*                           echoo's library functions                        */
+/* ************************************************************************** */
 
-long long int	ft_atoll(const char *str);
+long long		ft_atoll(const char *str);
 
 // n is number of ints, NOT number of bytes
 /**
@@ -119,23 +122,8 @@ long long int	ft_atoll(const char *str);
  */
 int				*ft_intchr(const int *s, const int c, const size_t n);
 
-// Duplicates the integer array.
-/**
- * @param i pointer to the array
- * @param len number of elements in the array
- * @return Returns a pointer to the duplicated array, returns NULL if malloc
- * fails
- */
-int				*ft_int_arr_dup(const int *i, size_t len);
-
 // returns the int difference between x and y
 unsigned int	ft_idim(int x, int y);
-
-// sets the value of all ints pointed to by the function to zero. num is the
-// number of values you're passing into it. Make sure you're passing pointers
-// to the function, as that's what the function expects, and the function can't
-// edit your ints otherwise
-void			ft_set_zero(int num, ...);
 
 // Replaced str_1 with a string of str_1 and str_2 combined. Returns 0 on
 // failure, 1 upon success. str_1 MUST be freeable.
@@ -151,7 +139,7 @@ int				ft_merge_strings(char **str_1, char *str_2);
  */
 int				ft_merge_strings_var(char **str_1, int str_count, ...);
 
-// Returns an array of elements contained in a t_list list. The array can be
+// Returns an array of elements contained in a t_list list. The array
 // is malloced and must be freed. So, if content points to an int, this will
 // return an array of all ints in the linked list.
 void			*ft_t_list_to_array(t_list *list, size_t content_size);
@@ -166,7 +154,61 @@ void			ft_free_arrays(char **array);
 // can be more easily customised
 char			**ft_split_f(char const *str, int (is_sep)(char));
 
-// Yiyuan library functions
+/* ************************************************************************** */
+/*                          safe free library functions                       */
+/* ************************************************************************** */
+
+/* Have you ever written code to free used memory and then later discovered:
+"Oh no, under certain situations this causes a double free!"
+
+You could think really hard and carefully make sure that the same variable is
+never freed twice. Or you could just not worry about it, with the safe free
+library function. With the safe free function library, all memory that is freed
+will be set to NULL, so you can now free like an idiot. A double free now means
+one free, and a second free on NULL which is completely safe. */
+
+// from safe free.c
+void			saf_free(void **mem);
+
+// Fully frees an array[][]. Array MUST be NULL terminated
+void			ft_saf_free_arrays(char ***array);
+
+/* ************************************************************************** */
+/*                         norminette library functions                       */
+/* ************************************************************************** */
+
+// These functions are probably only useful for passing norminette, and are
+// extremely degenerate
+
+// sets the value of all ints pointed to by the function to zero. num is the
+// number of values you're passing into it. Make sure you're passing pointers
+// to the function, as that's what the function expects, and the function can't
+// edit your ints otherwise
+void			ft_set_zero(int num, ...);
+
+// Duplicates the integer array.
+/**
+ * @param i pointer to the array
+ * @param len number of elements in the array
+ * @return Returns a pointer to the duplicated array, returns NULL if malloc
+ * fails
+ */
+int				*ft_int_arr_dup(const int *i, size_t len);
+
+// Frees the memory pointed to by all pointers in this array
+/**
+ * @brief This function is EXTREMELY unsafe and does not check input. Only
+ * put pointers that can be freed into it. Cast to (void *) to be safe (or
+ * don't. It's probably fine)
+ * @param num Number of pointer
+ * @return Returns a pointer to the duplicated array, returns NULL if malloc
+ * fails
+ */
+void			ft_free_all(int num, ...);
+
+/* ************************************************************************** */
+/*                          Yiyuan's library functions                        */
+/* ************************************************************************** */
 
 /* ************************************************************************** */
 /*                           Vector / dynamic array                           */
@@ -184,7 +226,7 @@ typedef struct s_vec
 	size_t	len;
 	size_t	cap;
 	size_t	elem_size;
-}			t_vec;
+}	t_vec;
 
 /**
  * @brief Create a new vector with specified element size and initial capacity.
@@ -192,7 +234,7 @@ typedef struct s_vec
  * @param init_cap Initial capacity. If 0, defaults to a reasonable size.
  * @return Pointer to new vector, or NULL on failure.
  */
-t_vec		*ft_vec_new(size_t elem_size, size_t init_cap);
+t_vec			*ft_vec_new(size_t elem_size, size_t init_cap);
 
 /**
  * @brief Append an element to the end of the vector.
@@ -201,7 +243,7 @@ t_vec		*ft_vec_new(size_t elem_size, size_t init_cap);
  * @return 1 on success, 0 on failure.
  * @note Grows capacity automatically when full. O(1) amortized.
  */
-int			ft_vec_push(t_vec *vec, const void *elem);
+int				ft_vec_push(t_vec *vec, const void *elem);
 
 /**
  * @brief Remove and optionally return the last element.
@@ -209,7 +251,7 @@ int			ft_vec_push(t_vec *vec, const void *elem);
  * @param out Output buffer for removed element. Can be NULL to discard.
  * @return 1 on success, 0 if vector is NULL or empty.
  */
-int			ft_vec_pop(t_vec *vec, void *out);
+int				ft_vec_pop(t_vec *vec, void *out);
 
 /**
  * @brief Get pointer to element at index.
@@ -217,7 +259,7 @@ int			ft_vec_pop(t_vec *vec, void *out);
  * @param index Index of element (0-based).
  * @return Pointer to element, or NULL if out of bounds/NULL.
  */
-void		*ft_vec_get(t_vec *vec, size_t index);
+void			*ft_vec_get(t_vec *vec, size_t index);
 
 /**
  * @brief Set element at index by copying from elem.
@@ -226,19 +268,19 @@ void		*ft_vec_get(t_vec *vec, size_t index);
  * @param elem Pointer to new element value.
  * @return 1 on success, 0 if out of bounds or NULL args.
  */
-int			ft_vec_set(t_vec *vec, size_t index, const void *elem);
+int				ft_vec_set(t_vec *vec, size_t index, const void *elem);
 
 /**
  * @brief Free all memory associated with a vector.
  * @param vec Pointer to vector. Safe to call with NULL.
  */
-void		ft_vec_free(t_vec *vec);
+void			ft_vec_free(t_vec *vec);
 
 /**
  * @brief Reset vector to empty state without freeing memory.
  * @param vec Pointer to vector. Safe to call with NULL.
  */
-void		ft_vec_clear(t_vec *vec);
+void			ft_vec_clear(t_vec *vec);
 
 /**
  * @brief Ensure vector has at least new_cap capacity.
@@ -247,7 +289,7 @@ void		ft_vec_clear(t_vec *vec);
  * @return 1 on success, 0 on failure.
  * @note Does nothing if current capacity >= new_cap.
  */
-int			ft_vec_reserve(t_vec *vec, size_t new_cap);
+int				ft_vec_reserve(t_vec *vec, size_t new_cap);
 
 /**
  * @brief Insert an element at the specified index.
@@ -257,7 +299,7 @@ int			ft_vec_reserve(t_vec *vec, size_t new_cap);
  * @return 1 on success, 0 on failure.
  * @note Elements at index and beyond are shifted right. O(n).
  */
-int			ft_vec_insert(t_vec *vec, size_t index, const void *elem);
+int				ft_vec_insert(t_vec *vec, size_t index, const void *elem);
 
 /* ************************************************************************** */
 /*                              2D Vector Math                                */
@@ -267,7 +309,7 @@ typedef struct s_vec2
 {
 	double	x;
 	double	y;
-}			t_vec2;
+}	t_vec2;
 
 /**
  * @brief Create a 2D vector from components.
@@ -275,7 +317,7 @@ typedef struct s_vec2
  * @param y Y component.
  * @return New vector with specified components.
  */
-t_vec2		ft_vec2_new(double x, double y);
+t_vec2			ft_vec2_new(double x, double y);
 
 /**
  * @brief Add two 2D vectors component-wise.
@@ -283,7 +325,7 @@ t_vec2		ft_vec2_new(double x, double y);
  * @param b Second vector.
  * @return Sum of vectors (a.x + b.x, a.y + b.y).
  */
-t_vec2		ft_vec2_add(t_vec2 a, t_vec2 b);
+t_vec2			ft_vec2_add(t_vec2 a, t_vec2 b);
 
 /**
  * @brief Subtract vector b from vector a.
@@ -291,7 +333,7 @@ t_vec2		ft_vec2_add(t_vec2 a, t_vec2 b);
  * @param b Second vector.
  * @return Difference (a.x - b.x, a.y - b.y).
  */
-t_vec2		ft_vec2_sub(t_vec2 a, t_vec2 b);
+t_vec2			ft_vec2_sub(t_vec2 a, t_vec2 b);
 
 /**
  * @brief Multiply vector by scalar.
@@ -299,7 +341,7 @@ t_vec2		ft_vec2_sub(t_vec2 a, t_vec2 b);
  * @param s Scalar multiplier.
  * @return Scaled vector (v.x * s, v.y * s).
  */
-t_vec2		ft_vec2_scale(t_vec2 v, double s);
+t_vec2			ft_vec2_scale(t_vec2 v, double s);
 
 /**
  * @brief Compute dot product of two vectors.
@@ -307,28 +349,28 @@ t_vec2		ft_vec2_scale(t_vec2 v, double s);
  * @param b Second vector.
  * @return Dot product (a.x * b.x + a.y * b.y).
  */
-double		ft_vec2_dot(t_vec2 a, t_vec2 b);
+double			ft_vec2_dot(t_vec2 a, t_vec2 b);
 
 /**
  * @brief Compute vector magnitude.
  * @param v Vector.
  * @return Length √(x² + y²).
  */
-double		ft_vec2_len(t_vec2 v);
+double			ft_vec2_len(t_vec2 v);
 
 /**
  * @brief Compute squared length (avoids sqrt).
  * @param v Vector.
  * @return Squared length x² + y².
  */
-double		ft_vec2_len_sq(t_vec2 v);
+double			ft_vec2_len_sq(t_vec2 v);
 
 /**
  * @brief Normalize vector to unit length.
  * @param v Vector to normalize.
  * @return Unit vector with same direction, or zero vector if input is zero.
  */
-t_vec2		ft_vec2_norm(t_vec2 v);
+t_vec2			ft_vec2_norm(t_vec2 v);
 
 /**
  * @brief Distance between two points.
@@ -336,7 +378,7 @@ t_vec2		ft_vec2_norm(t_vec2 v);
  * @param b Second point.
  * @return Distance |b - a|.
  */
-double		ft_vec2_dist(t_vec2 a, t_vec2 b);
+double			ft_vec2_dist(t_vec2 a, t_vec2 b);
 
 /**
  * @brief Linear interpolation between two vectors.
@@ -345,7 +387,7 @@ double		ft_vec2_dist(t_vec2 a, t_vec2 b);
  * @param t Interpolation parameter.
  * @return Interpolated vector a + t * (b - a).
  */
-t_vec2		ft_vec2_lerp(t_vec2 a, t_vec2 b, double t);
+t_vec2			ft_vec2_lerp(t_vec2 a, t_vec2 b, double t);
 
 /**
  * @brief Rotate vector by angle (radians).
@@ -353,6 +395,6 @@ t_vec2		ft_vec2_lerp(t_vec2 a, t_vec2 b, double t);
  * @param angle Rotation angle in radians.
  * @return Rotated vector.
  */
-t_vec2		ft_vec2_rotate(t_vec2 v, double angle);
+t_vec2			ft_vec2_rotate(t_vec2 v, double angle);
 
 #endif
