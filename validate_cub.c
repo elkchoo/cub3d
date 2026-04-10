@@ -6,7 +6,7 @@
 /*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 17:30:39 by echoo             #+#    #+#             */
-/*   Updated: 2026/04/10 17:58:59 by Elkan Choo       ###   ########.fr       */
+/*   Updated: 2026/04/10 19:08:34 by Elkan Choo       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,26 +36,16 @@ int	val_cub(t_data *data)
 		index = 0;
 		while (line[index] != '\0' && line[index] != '\n')
 		{
+			while (line[index] == ' ')
+				index++;
+			if (!elements_set(data))
+				add_element(data, line, &index);
+			else if (!map_val && !val_map(data, &line))
+				return (saf_free((void **)&line), 0);
+			else
+				map_val = 1;
 			if (line[index])
-			{
-				while (line[index] == '\n' || line[index] == ' ')
-					index++;
-				if (!elements_set(data))
-				{
-					if (line[index] == '\0')
-						break ;
-					add_element(data, line, &index);
-				}
-				else
-				{
-					if (!map_val && !val_map(data, &line))
-						return (saf_free((void **)&line), 0);
-					else
-						map_val = 1;
-				}
-				if (line[index])
-					index++;
-			}
+				index++;
 		}
 		saf_free((void **)&line);
 		line = get_next_line(data->fd);
