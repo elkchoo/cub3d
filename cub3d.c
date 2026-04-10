@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
+/*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 19:09:26 by Elkan Choo        #+#    #+#             */
-/*   Updated: 2026/04/10 17:49:55 by Elkan Choo       ###   ########.fr       */
+/*   Updated: 2026/04/11 00:22:27 by echoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 
 static void	setup(t_data *data);
 
+// The memory of the texture paths are owned by main. Unless a function calls
+// shutdown itself, which should be avoided unless inconvenient, the ownership
+// of the texture paths by main shall not be infringed.
 int	main(int argc, char *argv[])
 {
 	t_data	data;
@@ -42,8 +45,8 @@ int	main(int argc, char *argv[])
 	printf("SO: %s\n", data.s_texture);
 	printf("EA: %s\n", data.e_texture);
 	printf("WE: %s\n", data.w_texture);
-	printf("F: %i, %i, %i\n", data.f_color.red, data.f_color.green, data.f_color.blue);
-	printf("C: %i, %i, %i\n", data.c_color.red, data.c_color.green, data.c_color.blue);
+	printf("F: %i, %i, %i\n", data.p_color[0].red, data.p_color[0].green, data.p_color[0].blue);
+	printf("C: %i, %i, %i\n", data.p_color[1].red, data.p_color[1].green, data.p_color[1].blue);
 	end_program(0, &data, NULL);
 }
 
@@ -54,6 +57,6 @@ static void	setup(t_data *data)
 	data->s_texture = NULL;
 	data->e_texture = NULL;
 	data->w_texture = NULL;
-	data->f_color.set = 0;
-	data->c_color.set = 0;
+	data->p_color[0].set = 0;
+	data->p_color[1].set = 0;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
+/*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/03 13:12:23 by elkan             #+#    #+#             */
-/*   Updated: 2026/04/10 15:42:12 by Elkan Choo       ###   ########.fr       */
+/*   Updated: 2026/04/11 00:09:08 by echoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct color
 	unsigned char	green;
 	unsigned char	blue;
 	unsigned char	set;
-}	t_col;
+}	t_cdat;
 
 typedef struct main_data
 {
@@ -57,8 +57,8 @@ typedef struct main_data
 	char	*s_texture;
 	char	*e_texture;
 	char	*w_texture;
-	t_col	f_color;
-	t_col	c_color;
+	// p_color[0] represents the floor, p_color[1] represents the ceiling
+	t_cdat	p_color[2];
 }	t_data;
 
 typedef struct parameters
@@ -133,9 +133,9 @@ int		val_map(t_data *data, char **map_str);
 int		val_cub(t_data *data);
 
 // from get_color.c
-void	get_color(t_data *data, t_col *tr, char *line, int *index);
+void	get_color(t_data *data, int p, char *line, int *index);
 
 // from end_program.c
-void	end_program(int	status, t_data *data, char *err_msg);
+void	end_program(int status, t_data *data, char *err_msg);
 
 #endif

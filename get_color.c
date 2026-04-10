@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_color.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
+/*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 20:03:48 by Elkan Choo        #+#    #+#             */
-/*   Updated: 2026/04/10 17:58:59 by Elkan Choo       ###   ########.fr       */
+/*   Updated: 2026/04/11 00:22:33 by echoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@
 #include <stdlib.h>
 
 int	val_colors(char **colors);
-int	process_color(char *code, t_data *data, char **colors, char *line);
+int	process_color(const char *code, t_data *data, int p);
 
-// All error checking functions (val_colors and process_color) will free
-// colors, so colors is only freed after a successful operation.
-void	get_color(t_data *data, t_col *tr, char *line, int *index)
+// char **colors is stringly owned by this function, and is only freed here.
+// In the event of an error, line, which is malloc, must be freed here.
+// If no error, line is owned by the previous function.
+void	get_color(t_data *data, int p, char *line, int *index)
 {
 	char	**colors;
 
@@ -31,13 +32,19 @@ void	get_color(t_data *data, t_col *tr, char *line, int *index)
 	if (!colors || !val_colors(colors))
 	{
 		saf_free((void **)&line);
+		ft_saf_free_arrays(&colors);
 		end_program(1, data, "Error\nInvalid / missing color data\n");
 	}
-	tr->red = process_color(colors[0], data, colors, line);
-	tr->green = process_color(colors[1], data, colors, line);
-	tr->blue = process_color(colors[2], data, colors, line);
-	ft_free_arrays(colors);
-	tr->set = 1;
+	data->p_color[p].set = 1;
+	data->p_color[p].red = process_color(colors[0], data, p);
+	data->p_color[p].green = process_color(colors[1], data, p);
+	data->p_color[p].blue = process_color(colors[2], data, p);
+	ft_saf_free_arrays(&colors);
+	if (data->p_color[p].set == 0)
+	{
+		saf_free((void **)&line);
+		end_program(1, data, NULL);
+	}
 	while (line[*index] && line[*index] != ' ')
 		(*index)++;
 }
@@ -93,14 +100,14 @@ int	val_colors(char **colors)
 			&& b < 4)
 			buf[b] = colors[c][b];
 		if (b == 0)
-			return (ft_free_arrays(colors), 0);
+			return (0);
 		b = -1;
 		while (buf[++b])
 			if (!ft_isdigit(buf[b]))
-				return (ft_free_arrays(colors), 0);
+				return (0);
 	}
 	if (c == 2)
-		return (ft_free_arrays(colors), 0);
+		return (0);
 	return (1);
 }
 
@@ -117,16 +124,16 @@ int	val_colors(char **colors)
  * @param others All other variables are there to ensure everything is properly
  * freed in event of an error
 */
-int	process_color(char *code, t_data *data, char **colors, char *line)
+int	process_color(const char *code, t_data *data, int p)
 {
 	int		color_code;
 
 	color_code = ft_atoi(code);
 	if (255 < color_code)
 	{
-		saf_free((void **)&line);
-		ft_free_arrays(colors);
-		end_program(1, data, "Error\nInvalid / missing color data\n");
+		ft_dprintf(2, "Error\nInvalid color range\n");
+		data->p_color[p].set = 0;
+		return (0);
 	}
 	return (color_code);
 }

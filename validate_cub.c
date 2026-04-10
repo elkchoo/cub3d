@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_cub.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
+/*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 17:30:39 by echoo             #+#    #+#             */
-/*   Updated: 2026/04/10 19:08:34 by Elkan Choo       ###   ########.fr       */
+/*   Updated: 2026/04/11 00:22:32 by echoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ int	elements_set(t_data *data)
 		return (0);
 	if (data->w_texture == NULL)
 		return (0);
-	if (data->f_color.set == 0)
+	if (data->p_color[0].set == 0)
 		return (0);
-	if (data->c_color.set == 0)
+	if (data->p_color[1].set == 0)
 		return (0);
 	return (1);
 }
@@ -84,9 +84,9 @@ void	add_element(t_data *data, char *line, int *index)
 	else if (!ft_strncmp(line + *(index), "WE", 2))
 		data->w_texture = get_texture(data, line, index);
 	else if (!ft_strncmp(line + *(index), "F", 1))
-		get_color(data, &(data->f_color), line, index);
+		get_color(data, 0, line, index);
 	else if (!ft_strncmp(line + *(index), "C", 1))
-		get_color(data, &(data->c_color), line, index);
+		get_color(data, 1, line, index);
 	else
 	{
 		saf_free((void **)&line);
@@ -94,6 +94,8 @@ void	add_element(t_data *data, char *line, int *index)
 	}
 }
 
+// In the event of an error, line, which is malloc, must be freed here.
+// If no error, line is owned by the previous function.
 char	*get_texture(t_data *data, char *line, int *index)
 {
 	int		strlen;
