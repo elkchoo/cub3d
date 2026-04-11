@@ -6,7 +6,7 @@
 /*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 17:30:39 by echoo             #+#    #+#             */
-/*   Updated: 2026/04/11 00:22:32 by echoo            ###   ########.fr       */
+/*   Updated: 2026/04/11 12:09:03 by echoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,13 @@
 int		elements_set(t_data *data);
 void	add_element(t_data *data, char *line, int *index);
 char	*get_texture(t_data *data, char *line, int *index);
+int		val_cub(t_data *data);
 
 int	val_cub(t_data *data)
 {
 	char	*line;
 	int		index;
-	int		map_val;
 
-	map_val = 0;
 	line = get_next_line(data->fd);
 	while (line)
 	{
@@ -40,19 +39,17 @@ int	val_cub(t_data *data)
 				index++;
 			if (!elements_set(data))
 				add_element(data, line, &index);
-			else if (!map_val && !val_map(data, &line))
-				return (saf_free((void **)&line), 0);
+			else if (val_map(data, &line))
+				return (saf_free((void **)&line), 1);
 			else
-				map_val = 1;
+				return (saf_free((void **)&line), 0);
 			if (line[index])
 				index++;
 		}
 		saf_free((void **)&line);
 		line = get_next_line(data->fd);
 	}
-	if (map_val == 0)
-		return (ft_dprintf(2, "Error\nNo map\n"), 0);
-	return (elements_set(data));
+	return (0);
 }
 
 // Returns 1 if all elements are set, 0 if not all elements are set.

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
+/*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:30:28 by echoo             #+#    #+#             */
-/*   Updated: 2026/04/10 17:58:59 by Elkan Choo       ###   ########.fr       */
+/*   Updated: 2026/04/11 12:09:03 by echoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,6 @@ int	check_border(const char **map, int height)
 	index = 0;
 	while (map[0][index])
 	{
-		// printf("wall: %c%c\nindex: %i\n", map[0][index], map[height - 1][index], index);
 		if (!iswall(map[0][index]) || !iswall(map[height - 1][index]))
 			return (ft_dprintf(2, "Error\nWalls don't cover map\n"), 0);
 		index++;

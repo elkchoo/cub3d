@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_utils_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Elkan Choo <echoo@42mail.sutd.edu.sg>      +#+  +:+       +#+        */
+/*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 01:48:43 by elkan             #+#    #+#             */
-/*   Updated: 2026/04/10 13:34:55 by Elkan Choo       ###   ########.fr       */
+/*   Updated: 2026/04/11 12:37:02 by echoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,10 @@ void	end_mlx(t_pars *par, int code)
 	free(par->mlx);
 	free(par);
 	exit(code);
+}
+
+void	set_pos(t_pos *pos, int x, int y)
+{
+	pos->x = x;
+	pos->y = y;
 }

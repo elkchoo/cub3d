@@ -6,11 +6,11 @@
 #    By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/12 21:52:11 by elkan             #+#    #+#              #
-#    Updated: 2026/04/08 23:48:26 by echoo            ###   ########.fr        #
+#    Updated: 2026/04/11 12:34:13 by echoo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SOURCES = $(wildcard *.c)
+SOURCES := $(wildcard srcs/*.c srcs/**/*.c)
 
 BONUS_SOURCES = check_path.c mlx_utils_2.c mlx_utlis.c open_window.c \
 player_movement.c player_rotation.c search_path.c so_long.c so_long_utils.c \
@@ -28,7 +28,7 @@ LIBFT = libft/libft.a
 
 MLX = minilibx-linux/libmlx.a
 
-CFLAGS = -Wall -Wextra -Werror -Ilibft -Iminilibx-linux -g
+CFLAGS = -Wall -Wextra -Werror -Ilibft -I. -Iminilibx-linux -g
 
 all: $(NAME)
 

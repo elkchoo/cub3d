@@ -6,7 +6,7 @@
 /*   By: echoo <echoo@42mail.sutd.edu.sg>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/03 13:12:23 by elkan             #+#    #+#             */
-/*   Updated: 2026/04/11 00:09:08 by echoo            ###   ########.fr       */
+/*   Updated: 2026/04/11 12:30:10 by echoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,13 @@ int		val_map(t_data *data, char **map_str);
  * @return Returns 1 if cub is valid, 0 if not
 */
 int		val_cub(t_data *data);
+
+/**
+ * @param data pointer to the main data struct
+ * @param filename argv[1]
+ * @return Returns 1 if input is valid, 0 if not
+*/
+int		val_input(t_data *data, char *filename);
 
 // from get_color.c
 void	get_color(t_data *data, int p, char *line, int *index);
