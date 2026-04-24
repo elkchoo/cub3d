@@ -13,7 +13,6 @@
 #include "libft.h"
 
 #include <stdlib.h>
-#include <stdio.h>
 
 static int	b(t_list **tr, t_list *lst, void *(*f)(void *), void (*d)(void *));
 

@@ -33,6 +33,8 @@ void			ft_lstiter(t_list *lst, void (*f)(void *));
 t_list			*ft_lstlast(t_list *lst);
 t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
 					void (*del)(void *));
+t_list			*ft_lstget_node(t_list *list, int n);
+void			ft_lstpop_node(t_list **list, int n, void (*del)(void*));
 
 int				ft_atoi(const char *str);
 void			ft_bzero(void *s, size_t n);
@@ -97,7 +99,6 @@ int				ft_dprt_hex(int fd, char c, uintptr_t num, int *count);
 
 char			*get_next_line(int fd);
 char			*calc_return(int n_eof, char *buf);
-char			*get_next_line(int fd);
 int				calc_leftover(char **buf, size_t *len,
 					int *newline_index, char **leftover);
 int				read_fd(char **buf, size_t *len, int *newline_index, int fd);
