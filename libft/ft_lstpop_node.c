@@ -27,7 +27,7 @@ void	ft_lstpop_node(t_list **list, int n, void (*del)(void*))
 	else if (n > 0)
 	{
 		index = 0;
-		while (index < n - 1)
+		while (index++ < n - 1)
 			ptr = ptr->next;
 		tmp = ptr->next;
 		ptr->next = tmp->next;

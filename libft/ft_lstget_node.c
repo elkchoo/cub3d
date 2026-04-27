@@ -6,7 +6,7 @@
 /*   By: echoo <echoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 16:08:56 by echoo             #+#    #+#             */
-/*   Updated: 2026/04/24 16:09:21 by echoo            ###   ########.fr       */
+/*   Updated: 2026/04/27 15:01:47 by echoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_list	*ft_lstget_node(t_list *list, int n)
 			list = list->next;
 		else
 			return (NULL);
+		index++;
 	}
 	return (list);
 }
